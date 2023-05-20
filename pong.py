@@ -29,7 +29,7 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-x_hero = 650
+x_hero = 760
 y_hero = 200
 
 x_hero2 = 100
@@ -51,11 +51,11 @@ clock = time.Clock()
 
 window = display.set_mode((1000,625))
 display.set_caption('JoJong’s Bizarre Adventure')
-background = transform.scale(image.load('d.jpg'),(1000,625))
+background = transform.scale(image.load('background.jpg'),(1000,625))
 
-game_sprite = GameSprite('original-6005178dc77cc.jpg', 200, 250, x_hero, y_hero, speed_herox, speed_heroy)
-game_sprite2 = GameSprite('Ha877df28b2954cb18ba0ceb42b0ff9a09.png', 250, 250, x_hero2, y_hero2, speed_herox, speed_heroy)
-ball = GameSprite('original-5deec80967329.jpeg', 100, 100, x_ball, y_ball, speed_ballx, speed_bally)
+game_sprite = GameSprite('Без названия144_20230518212223.png', 100, 250, x_hero, y_hero, speed_herox, speed_heroy)
+game_sprite2 = GameSprite('Без названия143_20230518182259.png', 100, 250, x_hero2, y_hero2, speed_herox, speed_heroy)
+ball = GameSprite('Без названия140_20230517190736.png', 100, 100, x_ball, y_ball, speed_ballx, speed_bally)
 
 game = True
 while game:
@@ -64,20 +64,31 @@ while game:
             game = False 
         
     if finish != True:
-       ball.rect.x += speed_ballx
-       ball.rect.y += speed_bally
+        ball.rect.x += speed_ballx
+        ball.rect.y += speed_bally
+        window.blit(background,(0,0))
+        game_sprite.reset()
+        game_sprite2.reset()
+        ball.reset()
+        if finish == True:
+
+        keypressed = key.get_pressed()
+        game_sprite.move_hero()
+        game_sprite2.move_hero2()
+
+    if ball.rect.x > 1000 or ball.rect.x < 0:
+        finish = True
 
     if ball.rect.y > 625-50 or ball.rect.y < 0:
         speed_bally *= -1
-            
-    window.blit(background,(0,0))
-    game_sprite.reset()
-    game_sprite2.reset()
-    ball.reset()
 
-    keypressed = key.get_pressed()
-    game_sprite.move_hero()
-    game_sprite2.move_hero2()
+    if sprite.collide_rect(game_sprite, ball):
+        speed_ballx *= -1
+
+    if sprite.collide_rect(game_sprite2, ball):
+        speed_ballx *= -1
+            
+
 
 
 
